@@ -1,0 +1,6 @@
+homepage: "https://www.elbwalker.com"
+documentation: "https://github.com/elbwalker/sgtm-tag-bigquery/#readme"
+versions:
+  # Latest version
+  - sha: xxxxxxxxx
+    changeNotes: Initial release.
