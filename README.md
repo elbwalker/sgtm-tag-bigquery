@@ -267,16 +267,18 @@ SELECT
   timestamp AS event_timestamp,
   "page_view" AS event_name,
   JSON_VALUE(data.domain) AS page_hostname,
-  JSON_VALUE(DATA["title"]) AS page_title,
-  JSON_VALUE(DATA["id"]) AS page_path,
-  JSON_VALUE(JSON_EXTRACT(user, "$.hash")) AS client_id, /* optinally use JSON_EXTRACT instead of dot notation */
-  JSON_VALUE(user.device) AS ga_session_id,
+  JSON_VALUE(data["title"]) AS page_title,
+  /* optinally use JSON_EXTRACT instead of dot notation */
+  JSON_VALUE(JSON_EXTRACT(data, "$.id")) AS page_path,
+  user.hash AS client_id, 
+  user.device AS ga_session_id,
 FROM
-  `YourProjectId.YourDatabaseId.YourTableId`
+  `gtm-wc2726h-y2u2z.gtm_tests.walker_events`
 WHERE
   event = "page view"
 LIMIT
   100
+  
 ```
 
 The results should look similar to this: 
