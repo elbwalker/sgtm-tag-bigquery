@@ -7,7 +7,7 @@ this is a preview release of the *walker.js to BigQuery* tag template for server
 ## Creating a BigQuery Table For walker.js Events
 The BigQuery table that this tag template expects has a similar structure to all walker.js events - incuding entity, action, data, context, nested, version, timestamp, group and everything else specified in the [elbwalker website](https://www.elbwalker.com/). A `server_timestamp` is added as an alternative to the existing `timestamp` information from the browser. 
 
-Additionally, you can define a set of key / value pairs that get sent along with the walker.js event and get stored in a `additional_params` record. Values will be available as `string_value`, `float_value` or `int_value`. You can use them to add a user-defined set of headers, cookies or attributes of the request or event. 
+Additionally, you can define a set of key / value pairs that get sent along with the walker.js event and get stored in a `additional_data` record. Values will be available as `string_value`, `float_value` or `int_value`. You can use them to add a user-defined set of headers, cookies or attributes of the request or event. 
 
 ### Schema
 Create a new table in a new or existing dataset with the following schema that can be pasted as JSON: 
@@ -17,7 +17,7 @@ Create a new table in a new or existing dataset with the following schema that c
 - store additional parameters as JSON
 - store additional parameters as RECORD
 
-The default is JSON, since all other objects inside a walker.js event end up a JSON field as well. If you want to use a record instead, change the field definition for `additional_params` like described below. 
+The default is JSON, since all other objects inside a walker.js event end up a JSON field as well. If you want to use a record instead, change the field definition for `additional_data` like described below. 
 
 ```
 [
@@ -190,7 +190,7 @@ The default is JSON, since all other objects inside a walker.js event end up a J
         "description": "Timestamp when the sGTM processed the event in ms"
     },
     {
-        "name": "additional_params",
+        "name": "additional_data",
         "type": "JSON",
         "mode": "NULLABLE",
         "description": "Optionally captured but relevant event information in addition"
@@ -199,11 +199,11 @@ The default is JSON, since all other objects inside a walker.js event end up a J
 
 ```
 
-if you prefer a RECORD over JSON, swap out the definition for `additional_params` and use this block instead: 
+If you prefer a RECORD over JSON, swap out the definition for `additional_data` and use this block instead: 
 
 ```
   {
-    "name": "additional_params",
+    "name": "additional_data",
     "mode": "REPEATED",
     "type": "RECORD",
     "description": "Optionally captured but relevant event information in addition",
@@ -241,6 +241,8 @@ if you prefer a RECORD over JSON, swap out the definition for `additional_params
 
 ```
 
+Make sure to select *RECORD* as *Format / Type* for all additional data
+
 ### Partitioning
 Depending on your use case you should consider partitioning. The example SQL queries can be used with either  version and has to be adjusted to use the proper project / table name anyway. If you prefer to use a timestamp instead of ingestion time, prefer `server_timestamp` over the browser `timestamp` to use a common time base for all events.  
 
@@ -251,7 +253,7 @@ Depending on your use case you should consider partitioning. The example SQL que
 
 - Incoming walker.js events originate from the `x-elb-event` key in the event model if you keep the *Event Source* setting on *Automatic*. In case a different type of client is used or enhanced event processing inside a custom variable before sending data to BigQuery is required, use a *Custom Variable* as source.  
 
-- The tag can optionally add additional parameters (like IP address, user agent, headers, cookie values or others) to the BigQuery table in a   `additional_params` record. 
+- The tag can optionally add additional parameters (like IP address, user agent, headers, cookie values or others) to the BigQuery table in a `additional_data` record. 
 
 ![image](https://user-images.githubusercontent.com/15323700/205728127-5294143f-33df-498e-967e-13670fea0c28.png)
 

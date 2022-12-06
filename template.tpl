@@ -127,13 +127,13 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "groupParams",
-    "displayName": "Add Additional Parameters",
+    "displayName": "Add Additional Data",
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
         "type": "LABEL",
         "name": "labelInfo",
-        "displayName": "You can add additional data as event parameters. Define key and value pairs using variables that contain event data, headers or any other information. All additional parameters will be added to the \"additional_params\" field in BigQuery."
+        "displayName": "You can add additional data as event parameters. Define key and value pairs using variables that contain event data, headers or any other information. All additional parameters will be added to the \"additional_data\" field in BigQuery."
       },
       {
         "type": "PARAM_TABLE",
@@ -177,7 +177,7 @@ ___TEMPLATE_PARAMETERS___
         ],
         "simpleValueType": true,
         "defaultValue": "json",
-        "help": "Pick a field type for the \"additional_params\" field containing any added parameters. Must match the schema in your BigQuery table."
+        "help": "Pick a field type for the \"additional_data\" field containing any added information. Must match the schema in your BigQuery table."
       }
     ]
   }
@@ -267,7 +267,7 @@ if (!bigQueryObject) {
       }  
     });
 
-    bigQueryObject.additional_params = (data.paramsFieldType === 'json') ? JSON.stringify(additionalParamsObj) : additionalParamsArray;
+    bigQueryObject.additional_data = (data.paramsFieldType === 'json') ? JSON.stringify(additionalParamsObj) : additionalParamsArray;
   }
   
   //send event row to BQ
@@ -401,3 +401,4 @@ scenarios: []
 ___NOTES___
 
 Created on 04/03/2021, 10:54:54
+
