@@ -133,7 +133,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "LABEL",
         "name": "labelInfo",
-        "displayName": "You can add additional data as event parameters. Define key and value pairs using variables that contain event data, headers or any other information. All additional parameters will be added to the \"additional_data\" field in BigQuery."
+        "displayName": "You can add additional data to every event. Define key and value pairs using variables that contain event data, headers or any other information. All additional information will be added to the \"additional_data\" field in BigQuery."
       },
       {
         "type": "PARAM_TABLE",
@@ -144,7 +144,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "TEXT",
               "name": "key",
-              "displayName": "Parameter Key",
+              "displayName": "Key",
               "simpleValueType": true
             },
             "isUnique": true
@@ -153,7 +153,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "TEXT",
               "name": "value",
-              "displayName": "Parameter Value",
+              "displayName": "Value",
               "simpleValueType": true
             },
             "isUnique": false
@@ -401,4 +401,3 @@ scenarios: []
 ___NOTES___
 
 Created on 04/03/2021, 10:54:54
-

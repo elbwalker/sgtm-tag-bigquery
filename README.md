@@ -12,10 +12,10 @@ Additionally, you can define a set of key / value pairs that get sent along with
 ### Schema
 Create a new table in a new or existing dataset with the following schema that can be pasted as JSON: 
 
-**Note**: There is an option to store additional parameters in the BQ table in two different ways:
+**Note**: There is an option to store additional data in the BQ table in two different ways:
  
-- store additional parameters as JSON
-- store additional parameters as RECORD
+- store additional data as JSON
+- store additional data as RECORD
 
 The default is JSON, since all other objects inside a walker.js event end up a JSON field as well. If you want to use a record instead, change the field definition for `additional_data` like described below. 
 
