@@ -1,13 +1,13 @@
 # sgtm-tag-bigquery
-send walker.js events from ssGTM to BigQuery
+The sGTM BigQuery tag lets you send walker.js events from server-side Google Tag Manager to BigQuery.
 
 # Important Note
-this is a preview release of the *walker.js to BigQuery* tag template for server-side GTM. It uses the `x-elb-event` key in the server-side event model that usually gets populated by handling incoming walker.js events with the [walker.js Custom Client Template for server-side GTM](https://github.com/elbwalker/sgtm-client-template). 
+This is a preview release of the *walker.js to BigQuery* tag template for server-side GTM. It uses the `x-elb-event` key in the server-side event model that usually gets populated by handling incoming walker.js events with the [walker.js Custom Client Template for server-side GTM](https://github.com/elbwalker/sgtm-client-template). 
 
-## Creating a BigQuery Table For walker.js Events
-The BigQuery table that this tag template expects has a similar structure to all walker.js events - incuding entity, action, data, context, nested, version, timestamp, group and everything else specified in the [elbwalker website](https://www.elbwalker.com/). A `server_timestamp` is added as an alternative to the existing `timestamp` information from the browser. 
+## Creating a BigQuery table for walker.js events
+The BigQuery table that this tag template expects has a similar structure to all walker.js events - including entity, action, data, context, nested, version, timestamp, group, and everything else specified in the [Walker.js documentation](https://docs.elbwalker.com/). A `server_timestamp` is added as an alternative to the existing `timestamp` information from the browser. 
 
-Additionally, you can define a set of key / value pairs that get sent along with the walker.js event and get stored in a `additional_data` record. Values will be available as `string_value`, `float_value` or `int_value`. You can use them to add a user-defined set of headers, cookies or attributes of the request or event. 
+Additionally, you can define a set of key/value pairs that get sent along with the walker.js event and get stored in a `additional_data` record. Values will be available as `string_value`, `float_value`, or `int_value`. You can use them to add a user-defined set of headers, cookies, or attributes of the request or event. 
 
 ### Schema
 Create a new table in a new or existing dataset with the following schema that can be pasted as JSON: 
@@ -17,7 +17,7 @@ Create a new table in a new or existing dataset with the following schema that c
 - store additional data as JSON
 - store additional data as RECORD
 
-The default is JSON, since all other objects inside a walker.js event end up a JSON field as well. If you want to use a record instead, change the field definition for `additional_data` like described below. 
+The default is JSON, since all other objects inside a walker.js event end up as a JSON field as well. If you want to use a record instead, change the field definition for `additional_data` as described below. 
 
 ```
 [
@@ -244,23 +244,23 @@ If you prefer a RECORD over JSON, swap out the definition for `additional_data` 
 Make sure to select *RECORD* as *Format / Type* for all additional data
 
 ### Partitioning
-Depending on your use case you should consider partitioning. The example SQL queries can be used with either  version and has to be adjusted to use the proper project / table name anyway. If you prefer to use a timestamp instead of ingestion time, prefer `server_timestamp` over the browser `timestamp` to use a common time base for all events.  
+Depending on your use case you should consider partitioning. The example SQL queries can be used with either version and have to be adjusted to use the proper project/table name either way. If you prefer to use a timestamp instead of ingestion time, prefer `server_timestamp` over the browser `timestamp` to set a common time base for all events.  
 
 ## Using The Tag Template
-- add the template to your ssGTM in the *templates" section as a new tag template by creating a new template and importing this `.tpl` file (use the three-dot-menu in GTM Template Editor). 
+- add the template to your sGTM in the *templates" section as a new tag template by creating a new template and importing this `.tpl` file (use the three-dot-menu in GTM Template Editor). 
 
-- Add a new tag to ssGTM with this template and enter **project id** (if using a different project), **database id** and **table id**. #
+- Add a new tag to sGTM with this template and enter **project id** (if using a different project), **database id**, and **table id**. #
 
 - Incoming walker.js events originate from the `x-elb-event` key in the event model if you keep the *Event Source* setting on *Automatic*. In case a different type of client is used or enhanced event processing inside a custom variable before sending data to BigQuery is required, use a *Custom Variable* as source.  
 
-- The tag can optionally add additional parameters (like IP address, user agent, headers, cookie values or others) to the BigQuery table in a `additional_data` record. 
+- The tag can optionally add additional parameters (like IP address, user agent, headers, cookie values, or others) to the BigQuery table in a `additional_data` record. 
 
 ![image](https://user-images.githubusercontent.com/15323700/205728127-5294143f-33df-498e-967e-13670fea0c28.png)
 
-- Send events to your endpoint like demonstrated in the [example code from the ssGTM client repository](https://github.com/elbwalker/sgtm-client-template/tree/main/example) or use a client-side GTM and install the [walker.js Event Custom Tag Template](https://github.com/elbwalker/sgtm-client-template). Trigger your walker.js to BigQuery tag whenever a walker.js event arrives. 
+- Send events to your endpoint like demonstrated in the [example code from the sGTM client repository](https://github.com/elbwalker/sgtm-client-template/tree/main/example) or use a client-side GTM and install the [walker.js Event Custom Tag Template](https://github.com/elbwalker/sgtm-client-template). Trigger your walker.js to BigQuery tag whenever a walker.js event arrives. 
 
 ## BigQuery Results
-All Events will get pushed to the new table in BigQuery. Data like `globals`, `data`, `context`, `nested` and other objects will be stored in JSON fields and can be accessed in different ways. You can use `JSON_EXTRACT` as well as simply access nested information in a JSON field by using dot notation. The following query shows how to extract selected fields using both methods and creating a simple "GA like" list of all page view events. 
+All Events will get pushed to the new table in BigQuery. Data like `globals`, `data`, `context`, `nested` and other objects will be stored in JSON fields and can be accessed in different ways. You can use `JSON_EXTRACT` as well as simply access nested information in a JSON field by using dot notation. The following query shows how to extract selected fields using both methods and creating a simple "GA-like" list of all page view events. 
 
 ```
 SELECT
@@ -268,7 +268,7 @@ SELECT
   "page_view" AS event_name,
   JSON_VALUE(data.domain) AS page_hostname,
   JSON_VALUE(data["title"]) AS page_title,
-  /* optinally use JSON_EXTRACT instead of dot notation */
+  /* optionally use JSON_EXTRACT instead of dot notation */
   JSON_VALUE(JSON_EXTRACT(data, "$.id")) AS page_path,
   user.hash AS client_id, 
   user.device AS ga_session_id,
