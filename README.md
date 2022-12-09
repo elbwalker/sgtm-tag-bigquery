@@ -1,5 +1,13 @@
-# sgtm-tag-bigquery
+<p align="left">
+  <a href="https://elbwalker.com">
+    <img title="elbwalker" src='https://www.elbwalker.com/elbwalker.png' width="300px"/>
+  </a>
+</p>
+
+# elbwalker to BigQuery Server Side Google Tag Manager Custom Tag Template
 The sGTM BigQuery tag lets you send walker.js events from server-side Google Tag Manager to BigQuery.
+
+[![Beta Status](https://img.shields.io/badge/Status-Beta-yellow.svg)](https://shields.io/)
 
 # Important Note
 This is a preview release of the *walker.js to BigQuery* tag template for server-side GTM. It uses the `x-elb-event` key in the server-side event model that usually gets populated by handling incoming walker.js events with the [walker.js Custom Client Template for server-side GTM](https://github.com/elbwalker/sgtm-client-template). 
@@ -58,7 +66,7 @@ The default is JSON, since all other objects inside a walker.js event end up as 
         "description": "Information about the user",
         "fields": [
             {
-                "name": "hash",
+                "name": "session",
                 "type": "STRING",
                 "mode": "NULLABLE",
                 "description": "session value (e.g. encrypted temporary fingerprint)"

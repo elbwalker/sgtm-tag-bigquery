@@ -189,7 +189,7 @@ ___SANDBOXED_JS_FOR_SERVER___
 /**
  * @description Custom server-side Google Tag Manager Tag Template 
  * Sending walker.js events to BigQuery
- * @version 0.1.1
+ * @version 0.2.1
  * @see {@link https://github.com/elbwalker|elbwalker on GitHub} for more about walker.js
  */
 
@@ -240,12 +240,18 @@ if (!bigQueryObject) {
   bigQueryObject.server_timestamp = getTimestampMillis();
   bigQueryObject.data = JSON.stringify(bigQueryObject.data);
   bigQueryObject.context = JSON.stringify(bigQueryObject.context);
+  if (bigQueryObject.consent)
+    bigQueryObject.consent = JSON.stringify(bigQueryObject.consent);
   bigQueryObject.globals = JSON.stringify(bigQueryObject.globals);
   bigQueryObject.nested = JSON.stringify(bigQueryObject.nested);  
   if (bigQueryObject.consent) 
     bigQueryObject.consent = JSON.stringify(bigQueryObject.consent);
   if (data.serverVersions && bigQueryObject.version) 
     bigQueryObject.version.server = data.serverVersions;
+  
+  //adjust user for events < walker.js 1.6
+  if (bigQueryObject.user && bigQueryObject.user.hash) 
+    bigQueryObject.user.session = bigQueryObject.user.hash;
   
   // add additional data fields to BigQuery params JSON or record
   if (data.addParams && data.addParams.length > 0) {
@@ -401,3 +407,5 @@ scenarios: []
 ___NOTES___
 
 Created on 04/03/2021, 10:54:54
+
+
