@@ -278,8 +278,8 @@ SELECT
   JSON_VALUE(data["title"]) AS page_title,
   /* optionally use JSON_EXTRACT instead of dot notation */
   JSON_VALUE(JSON_EXTRACT(data, "$.id")) AS page_path,
-  user.hash AS client_id, 
-  user.device AS ga_session_id,
+  user.device AS client_id, 
+  user.session AS ga_session_id,
 FROM
   `gtm-wc2726h-y2u2z.gtm_tests.walker_events`
 WHERE
