@@ -281,7 +281,7 @@ SELECT
   user.device AS client_id, 
   user.session AS ga_session_id,
 FROM
-  `gtm-wc2726h-y2u2z.gtm_tests.walker_events`
+  `your-project.your-database.your-walker_events-table`
 WHERE
   event = "page view"
 LIMIT
