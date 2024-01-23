@@ -21,6 +21,7 @@ Additionally, you can define a set of key/value pairs that get sent along with t
 Create a new table in a new or existing dataset with the following schema that can be pasted as JSON: 
 
 #### Schema Update 2024 (walkerOS 2.0.0 or older)
+```
 [
     {
         "name": "timestamp",
@@ -203,6 +204,7 @@ Create a new table in a new or existing dataset with the following schema that c
         "description": "Optionally captured but relevant event information in addition"
     }
 ]
+```
 
 #### Older Schema (still compatible with any incoming walker.js / walkerOS event)
 **Note**: There is an option to store additional data in the BQ table in two different ways:
