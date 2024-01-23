@@ -2,5 +2,5 @@ homepage: "https://www.elbwalker.com"
 documentation: "https://github.com/elbwalker/sgtm-tag-bigquery/#readme"
 versions:
   # Latest version
-  - sha: xxxxxxxxx
+  - sha: 4c1d730e1a1ab0afe4d7bd07375178303823ac20
     changeNotes: Initial release.
