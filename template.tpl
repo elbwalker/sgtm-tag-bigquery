@@ -242,16 +242,26 @@ if (!bigQueryObject) {
   bigQueryObject.context = JSON.stringify(bigQueryObject.context);
   if (bigQueryObject.consent)
     bigQueryObject.consent = JSON.stringify(bigQueryObject.consent);
+  if (bigQueryObject.custom)
+    bigQueryObject.custom = JSON.stringify(bigQueryObject.custom);
   bigQueryObject.globals = JSON.stringify(bigQueryObject.globals);
   bigQueryObject.nested = JSON.stringify(bigQueryObject.nested);  
-  if (bigQueryObject.consent) 
-    bigQueryObject.consent = JSON.stringify(bigQueryObject.consent);
   if (data.serverVersions && bigQueryObject.version) 
     bigQueryObject.version.server = data.serverVersions;
   
   //adjust user for events < walker.js 1.6
   if (bigQueryObject.user && bigQueryObject.user.hash) 
     bigQueryObject.user.session = bigQueryObject.user.hash;
+
+  //adjust version for events >= walker.js 2.x to fit new db schema 
+  //and older events for new schema
+  if (bigQueryObject.version && !bigQueryObject.version.walker && bigQueryObject.version.client) {
+    bigQueryObject.version.walker = bigQueryObject.version.client;
+    bigQueryObject.version.config = bigQueryObject.version.tagging;
+  } else if (bigQueryObject.version && !bigQueryObject.version.client && bigQueryObject.version.walker) {
+    bigQueryObject.version.client = bigQueryObject.version.walker;
+    bigQueryObject.version.tagging = bigQueryObject.version.config;
+  }
   
   // add additional data fields to BigQuery params JSON or record
   if (data.addParams && data.addParams.length > 0) {
